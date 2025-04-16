@@ -1,7 +1,10 @@
 package com.myproject.swaglabsdemo.page;
 
+import lombok.Builder;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -11,7 +14,12 @@ import org.openqa.selenium.support.PageFactory;
 /**
  * @author Miroslav Kološnjaji
  */
-public class LoginPage {
+
+public class LoginPage extends BasePage {
+
+    private static String XPATH_TO_ERROR_MESSAGE = "//h3[contains(text(), 'Epic sadface: ')]";
+    private static final String TITLE = "Swag Labs";
+
 
     @FindBy(how = How.ID, using = "user-name")
     @CacheLookup
@@ -25,38 +33,35 @@ public class LoginPage {
     @CacheLookup
     private WebElement btnLogin;
 
-    @FindBy(id = "react-burger-menu-btn")
-    @CacheLookup
-    WebElement burgerMenu;
-
-    @FindBy(linkText = "Logout")
-    @CacheLookup
-    WebElement lnkLogout;
-
-    public LoginPage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
+    protected LoginPage(WebDriver webDriver) {
+        super(webDriver);
     }
 
-    public void setUsername(String username) {
+    public LoginPage setUsername(String username) {
         txtUsername.clear();
         txtUsername.sendKeys(username);
+        return this;
     }
 
-    public void setPassword(String password){
+    public LoginPage setPassword(String password) {
         txtPassword.clear();
         txtPassword.sendKeys(password);
+        return this;
     }
 
-    public void clickLogin(){
+    public ProductPage clickLogin() {
         btnLogin.click();
+        return PageFactory.initElements(webDriver, ProductPage.class);
     }
 
-    public void clickOnBurgerMenu() throws InterruptedException {
-        burgerMenu.click();
-        Thread.sleep(3000);
+    public boolean isErrorMessageDisplayed() {
+        return !webDriver.findElements(By.xpath(XPATH_TO_ERROR_MESSAGE)).isEmpty();
     }
 
-    public void clickLogout(){
-        lnkLogout.click();
+    @Override
+    public boolean isCorrectPage() {
+        return webDriver.getTitle().equals(TITLE);
     }
+
+
 }
