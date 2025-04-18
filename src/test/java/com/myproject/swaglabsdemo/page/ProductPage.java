@@ -1,12 +1,12 @@
 package com.myproject.swaglabsdemo.page;
 
+import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -35,10 +35,6 @@ public class ProductPage extends BasePage {
         return productsQuantity().equals(String.valueOf(quantity));
     }
 
-    public boolean isCorrectPage() {
-        return isCorrectPage(TITLE);
-    }
-
     public ProductPage addProductsToCart(List<String> productList){
         productList.forEach(this::addProductToCart);
         return this;
@@ -46,8 +42,8 @@ public class ProductPage extends BasePage {
 
     public ProductPage addProductToCart(String xpath) {
 
-        WebElement product =  webDriverWait.until(ExpectedConditions.elementToBeClickable(getProduct(xpath)));
-        webDriverWait.until(ExpectedConditions.visibilityOf(product)).click();
+        WebElement product = WebDriverUtils.isClicable(getProduct(xpath));
+        product.click();
 
         return this;
     }
@@ -57,6 +53,12 @@ public class ProductPage extends BasePage {
     }
 
     private String productsQuantity() {
+        WebDriverUtils.isVisible(shoppingCartLink);
         return shoppingCartLink.findElement(By.xpath(".//span")).getText();
     }
+
+    public boolean isCorrectPage() {
+        return isCorrectPage(TITLE);
+    }
+
 }

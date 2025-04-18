@@ -1,5 +1,6 @@
 package com.myproject.swaglabsdemo.page;
 
+import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,7 @@ public class CheckoutOverviewPage extends BasePage {
     }
 
     public CheckoutCompletePage clickFinishButton() {
+        WebDriverUtils.isClicable(finishButton);
         finishButton.click();
         return PageFactory.initElements(webDriver, CheckoutCompletePage.class);
     }

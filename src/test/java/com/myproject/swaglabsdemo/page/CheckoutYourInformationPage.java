@@ -1,13 +1,12 @@
 package com.myproject.swaglabsdemo.page;
 
-import org.openqa.selenium.By;
+import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * @author Miroslav Kološnjaji
@@ -38,25 +37,28 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public CheckoutYourInformationPage populateFirstNameField(String firstName) {
+        WebDriverUtils.isClicable(firstNameField);
         firstNameField.clear();
         firstNameField.sendKeys(firstName);
         return this;
     }
 
     public CheckoutYourInformationPage populateLastNameField(String lastName) {
+        WebDriverUtils.isClicable(lastNameField);
         lastNameField.clear();
         lastNameField.sendKeys(lastName);
         return this;
     }
 
     public CheckoutYourInformationPage populatePostalCodeField(String postalCode) {
+        WebDriverUtils.isClicable(postalCodeField);
         postalCodeField.clear();
         postalCodeField.sendKeys(postalCode);
         return this;
     }
 
     public CheckoutOverviewPage clickContinueButton() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(continueButton));
+        WebDriverUtils.isVisible(continueButton);
         continueButton.click();
         return PageFactory.initElements(webDriver, CheckoutOverviewPage.class);
     }

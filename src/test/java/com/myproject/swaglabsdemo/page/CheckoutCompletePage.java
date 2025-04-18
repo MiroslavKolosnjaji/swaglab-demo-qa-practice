@@ -1,12 +1,10 @@
 package com.myproject.swaglabsdemo.page;
 
+import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.List;
 
 /**
  * @author Miroslav Kološnjaji
@@ -25,11 +23,11 @@ public class CheckoutCompletePage extends BasePage {
 
         WebElement messageElement = webDriver.findElement(By.xpath(XPATH_TO_SUCCESS_MESSAGE));
 
-        webDriverWait.until(ExpectedConditions.visibilityOfAllElements(messageElement));
+        WebDriverUtils.isVisible(messageElement);
 
         log.info("CHECKOUT COMPLETE MESSAGE: {}", messageElement.getText());
 
-        return webDriver.findElement(By.xpath(XPATH_TO_SUCCESS_MESSAGE)).getText().equals("Thank you for your order!");
+        return messageElement.getText().equals("Thank you for your order!");
     }
 
     public boolean isCorrectPage() {
