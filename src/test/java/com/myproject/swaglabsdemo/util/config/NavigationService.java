@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class NavigationService {
 
-    private static final String XPATH_TO_SHOPPING_CART_LINK = "//div[@id='shoping_cart_container']//a";
+    private static final String XPATH_TO_SHOPPING_CART_LINK = "//div[@id='shopping_cart_container']//a";
     private static final String URL = "https://www.saucedemo.com/";
 
 
