@@ -27,9 +27,11 @@ public class E2EModule extends AbstractModule {
     @Provides
     @ScenarioScoped
     @Inject
-    public synchronized WebDriver provideWebDriver(){
+    public synchronized WebDriver provideWebDriver() {
 
         WebDriver webDriver = DriverProviderService.getChromeDriver();
+        webDriver.manage().window().maximize();
+
         WebDriverUtils.createInstance(webDriver, Duration.ofSeconds(10));
 
         return webDriver;
@@ -38,6 +40,7 @@ public class E2EModule extends AbstractModule {
     @Provides
     @ScenarioScoped
     @Inject
-    public synchronized TestDataStrategy provideUserData(){ return new ValidUserStrategy();
+    public synchronized TestDataStrategy provideUserData() {
+        return new ValidUserStrategy();
     }
 }
