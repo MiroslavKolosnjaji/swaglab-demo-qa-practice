@@ -2,6 +2,7 @@ package com.myproject.swaglabsdemo.stepDefinition;
 
 import com.google.inject.Inject;
 import com.myproject.swaglabsdemo.entity.User;
+import com.myproject.swaglabsdemo.entity.strategy.TestDataStrategy;
 import com.myproject.swaglabsdemo.page.*;
 import com.myproject.swaglabsdemo.util.config.NavigationService;
 import io.cucumber.java.en.And;
@@ -11,6 +12,9 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -18,98 +22,109 @@ import static org.testng.Assert.assertTrue;
  */
 public class OrderingStep {
 
-    private WebDriver webDriver;
-    private LoginPage loginPage;
+    private User user;
+    private final WebDriver webDriver;
+    private final NavigationService navigationService;
+    private final TestDataStrategy testDataStrategy;
+    private final LoginPage loginPage;
     private ProductPage productPage;
     private CheckoutYourInformationPage checkoutYourInformationPage;
     private CheckoutOverviewPage checkoutOverviewPage;
     private CheckoutCompletePage checkoutCompletePage;
-    private NavigationService navigationService;
 
     @Inject
-    public OrderingStep(WebDriver webDriver) {
+    public OrderingStep(WebDriver webDriver, TestDataStrategy testDataStrategy) {
         this.webDriver = webDriver;
         this.loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-        this.productPage = PageFactory.initElements(webDriver, ProductPage.class);
-        this.checkoutYourInformationPage = PageFactory.initElements(webDriver, CheckoutYourInformationPage.class);
-        this.checkoutOverviewPage = PageFactory.initElements(webDriver, CheckoutOverviewPage.class);
-        this.checkoutCompletePage = PageFactory.initElements(webDriver, CheckoutCompletePage.class);
         this.navigationService = PageFactory.initElements(webDriver, NavigationService.class);
+        this.testDataStrategy = testDataStrategy;
     }
 
     @Given("generate valid user")
     public void generateValidUser() {
-        User user = User.builder()
-                .userName("standard_user")
-                .password("secret_sauce")
-                .firstName("John")
-                .lastName("Smith")
-                .postalCode("25234")
-                .build();
+        user = testDataStrategy.generateTestUserData();
     }
 
 
-    @When("login as valid user with {string} and {string}")
-    public void loginAsValidUserWithAnd(String userName, String password) {
-        loginPage
-                .setUsername(userName)
-                .setPassword(password)
+    @When("login as valid user")
+    public void loginAsValidUserWithAnd() {
+        productPage = loginPage
+                .setUsername(user.getUserName())
+                .setPassword(user.getPassword())
                 .clickLogin();
+
+        assertFalse(loginPage.isErrorMessageDisplayed(), "Login failed.");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Then("verify that user landed on the products page")
     public void verifyThatUserLandedOnTheProductsPage() {
 
         boolean isCorrectPage = productPage.isCorrectPage();
+
         assertTrue(isCorrectPage, "User is not on the Products page.");
     }
 
     @And("user add desired products to the Cart")
     public void userAddDesiredProductsToTheCart() {
 
+        List<String> productList = List.of(
+                "add-to-cart-sauce-labs-backpack",
+                "add-to-cart-sauce-labs-bike-light",
+                "add-to-cart-sauce-labs-bolt-t-shirt",
+                "add-to-cart-sauce-labs-fleece-jacket",
+                "add-to-cart-sauce-labs-onesie",
+                "add-to-cart-test.allthethings()-t-shirt-(red)");
+
         productPage
-                .addBackPackProductToCart()
-                .addBikeLightProductTOCart()
-                .addBoltTShirtProductToCart()
-                .addFleeceJacketProductToCart()
-                .addOnesieProductToCart()
-                .addRedTShirtProductToCart();
+                .addProductsToCart(productList);
+
     }
+
 
     @Then("verify that shopping cart contains notification with correct number")
     public void verifyThatShoppingCartContainsNotificationWithCorrectNumber() {
 
-        boolean isCorrect = productPage.verifyShoppingCartProductCount();
+        Integer quantity = 6;
+
+        boolean isCorrect = productPage.verifyShoppingCartProductCount(quantity);
         assertTrue(isCorrect, "Displayed notification is incorrect.");
     }
 
     @And("checkout from the Cart")
     public void checkoutFromTheCart() {
-        navigationService
+        checkoutYourInformationPage = navigationService
                 .navigateToShoppingCartPage(webDriver)
                 .clickCheckout();
     }
 
-    @And("populate the form on the Your Information page with first name {string}, last name {string}, and postal code {string}")
-    public void populateTheFormOnTheYourInformationPageWithFirstNameLastNameAndPostalCode(String... credentials) {
-        checkoutYourInformationPage
-                .populateFirstNameField(credentials[0])
-                .populateLastNameField(credentials[1])
-                .populatePostalCodeField(credentials[2])
+    @And("populate the form on the Your Information page")
+    public void populateTheFormOnTheYourInformationPageWithFirstNameLastNameAndPostalCode() {
+        checkoutOverviewPage = checkoutYourInformationPage
+                .populateFirstNameField(user.getFirstName())
+                .populateLastNameField(user.getLastName())
+                .populatePostalCodeField(user.getPostalCode())
                 .clickContinueButton();
     }
 
 
     @And("finish the order")
     public void finishTheOrder() {
-        checkoutOverviewPage
+        checkoutCompletePage = checkoutOverviewPage
                 .clickFinishButton();
+
+        assertTrue(checkoutCompletePage.isCorrectPage(), "");
     }
 
     @Then("should receive the success message")
     public void shouldReceiveTheSuccessMessage() {
 
-        boolean isCorrectMessage = checkoutCompletePage.isSucessmessageDisplayed();
+        boolean isCorrectMessage = checkoutCompletePage.isSuccessMessageDisplayed();
         assertTrue(isCorrectMessage, "Success message is not displayed");
     }
 
