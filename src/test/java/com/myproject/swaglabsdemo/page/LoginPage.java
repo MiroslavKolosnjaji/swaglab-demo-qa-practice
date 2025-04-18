@@ -1,5 +1,6 @@
 package com.myproject.swaglabsdemo.page;
 
+import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import lombok.Builder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,23 +34,26 @@ public class LoginPage extends BasePage {
     @CacheLookup
     private WebElement btnLogin;
 
-    protected LoginPage(WebDriver webDriver) {
+    public LoginPage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public LoginPage setUsername(String username) {
+        WebDriverUtils.isClicable(txtUsername);
         txtUsername.clear();
         txtUsername.sendKeys(username);
         return this;
     }
 
     public LoginPage setPassword(String password) {
+        WebDriverUtils.isClicable(txtPassword);
         txtPassword.clear();
         txtPassword.sendKeys(password);
         return this;
     }
 
     public ProductPage clickLogin() {
+        WebDriverUtils.isClicable(btnLogin);
         btnLogin.click();
         return PageFactory.initElements(webDriver, ProductPage.class);
     }
@@ -58,10 +62,5 @@ public class LoginPage extends BasePage {
         return !webDriver.findElements(By.xpath(XPATH_TO_ERROR_MESSAGE)).isEmpty();
     }
 
-    @Override
-    public boolean isCorrectPage() {
-        return webDriver.getTitle().equals(TITLE);
-    }
-
-
+    public boolean isCorrectPage() {return webDriver.getTitle().equals(TITLE);}
 }

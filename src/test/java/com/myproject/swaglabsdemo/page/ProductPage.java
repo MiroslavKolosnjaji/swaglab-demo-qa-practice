@@ -1,79 +1,62 @@
 package com.myproject.swaglabsdemo.page;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 /**
  * @author Miroslav Kološnjaji
  */
+@Slf4j
 public class ProductPage extends BasePage {
 
     private static final String BASE_PRODUCT_ADD_BUTTON_PATH = "//button[@id = '%s']";
     private static final String TITLE = "Products";
 
-    @FindBy(xpath = "//button[@id = 'add-to-cart-sauce-labs-backpack']")
-    @CacheLookup
-    private WebElement backPackAddButton;
-
     @FindBy(xpath = "//div[@id = 'shopping_cart_container']//a")
     @CacheLookup
     private WebElement shoppingCartLink;
 
-    protected ProductPage(WebDriver webDriver) {
+    public ProductPage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public ProductPage addProductsToCart(List<String> products) {
-        products.forEach(this::addProduct);
-        return this;
+
+    public boolean verifyShoppingCartProductCount(Integer quantity) {
+
+        log.info("The product quantity in the cart is {}", productsQuantity());
+
+        return productsQuantity().equals(String.valueOf(quantity));
     }
 
-    public ProductPage addBackPackProductToCart() {
-        addProduct("add-to-cart-sauce-labs-backpack");
-        return this;
-    }
-
-    public ProductPage addBikeLightProductTOCart() {
-        addProduct("add-to-cart-sauce-labs-bike-light");
-        return this;
-    }
-
-    public ProductPage addBoltTShirtProductToCart() {
-        addProduct("add-to-cart-sauce-labs-bolt-t-shirt");
-        return this;
-    }
-
-    public ProductPage addFleeceJacketProductToCart() {
-        addProduct("add-to-cart-sauce-labs-fleece-jacket");
-        return this;
-    }
-
-    public ProductPage addOnesieProductToCart() {
-        addProduct("add-to-cart-sauce-labs-onesie");
-        return this;
-    }
-
-    public ProductPage addRedTShirtProductToCart() {
-        addProduct("add-to-cart-test.allthethings()-t-shirt-(red)");
-        return this;
-    }
-
-    public boolean verifyShoppingCartProductCount() {
-        return shoppingCartLink.findElements(By.xpath(".//span")).size() == 6;
-    }
-
-
-    @Override
     public boolean isCorrectPage() {
-        return webDriver.findElement(By.xpath(XPATH_TO_PAGE_TITLE)).getText().equals(TITLE);
+        return isCorrectPage(TITLE);
     }
 
-    private void addProduct(String xpath) {
-        webDriver.findElement(By.xpath(String.format(BASE_PRODUCT_ADD_BUTTON_PATH, xpath))).click();
+    public ProductPage addProductsToCart(List<String> productList){
+        productList.forEach(this::addProductToCart);
+        return this;
+    }
+
+    public ProductPage addProductToCart(String xpath) {
+
+        WebElement product =  webDriverWait.until(ExpectedConditions.elementToBeClickable(getProduct(xpath)));
+        webDriverWait.until(ExpectedConditions.visibilityOf(product)).click();
+
+        return this;
+    }
+
+    private WebElement getProduct(String xpath) {
+        return webDriver.findElement(By.xpath(String.format(BASE_PRODUCT_ADD_BUTTON_PATH, xpath)));
+    }
+
+    private String productsQuantity() {
+        return shoppingCartLink.findElement(By.xpath(".//span")).getText();
     }
 }

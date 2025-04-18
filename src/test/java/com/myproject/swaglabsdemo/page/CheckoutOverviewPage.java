@@ -13,13 +13,13 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class CheckoutOverviewPage extends BasePage {
 
-    private final String TITLE = "Checkout: Overview";
+    private static final String TITLE = "Checkout: Overview";
 
     @FindBy(how = How.ID, using = "finish")
     @CacheLookup
     private WebElement finishButton;
 
-    protected CheckoutOverviewPage(WebDriver webDriver) {
+    public CheckoutOverviewPage(WebDriver webDriver) {
         super(webDriver);
     }
 
@@ -28,8 +28,7 @@ public class CheckoutOverviewPage extends BasePage {
         return PageFactory.initElements(webDriver, CheckoutCompletePage.class);
     }
 
-    @Override
     public boolean isCorrectPage() {
-        return webDriver.findElement(By.xpath(XPATH_TO_PAGE_TITLE)).getText().equals(TITLE);
+        return isCorrectPage(TITLE);
     }
 }

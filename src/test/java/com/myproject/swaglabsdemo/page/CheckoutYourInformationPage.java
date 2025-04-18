@@ -7,13 +7,14 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * @author Miroslav Kološnjaji
  */
 public class CheckoutYourInformationPage extends BasePage {
 
-    private final String TITLE = "Checkout: Your Information";
+    private static final String TITLE = "Checkout: Your Information";
 
 
     @FindBy(how = How.ID, using = "first-name")
@@ -28,7 +29,7 @@ public class CheckoutYourInformationPage extends BasePage {
     @CacheLookup
     private WebElement postalCodeField;
 
-    @FindBy(how = How.ID, using = "postal-code")
+    @FindBy(how = How.ID, using = "continue")
     @CacheLookup
     private WebElement continueButton;
 
@@ -55,13 +56,12 @@ public class CheckoutYourInformationPage extends BasePage {
     }
 
     public CheckoutOverviewPage clickContinueButton() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(continueButton));
         continueButton.click();
         return PageFactory.initElements(webDriver, CheckoutOverviewPage.class);
     }
 
-
-    @Override
     public boolean isCorrectPage() {
-        return webDriver.findElement(By.xpath(XPATH_TO_PAGE_TITLE)).getText().equals(TITLE);
+        return isCorrectPage(TITLE);
     }
 }

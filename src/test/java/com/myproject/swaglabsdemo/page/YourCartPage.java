@@ -6,29 +6,30 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * @author Miroslav Kološnjaji
  */
 public class YourCartPage extends BasePage {
 
-    private final String TITLE = "Your Cart";
+    private static final String TITLE = "Your Cart";
 
     @FindBy(xpath = "//button[@id = 'checkout']")
     @CacheLookup
     private WebElement btnCheckout;
 
-    protected YourCartPage(WebDriver webDriver) {
+    public YourCartPage(WebDriver webDriver) {
         super(webDriver);
     }
 
     public CheckoutYourInformationPage clickCheckout() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(btnCheckout));
         btnCheckout.click();
         return PageFactory.initElements(webDriver, CheckoutYourInformationPage.class);
     }
 
-    @Override
     public boolean isCorrectPage() {
-        return webDriver.findElement(By.xpath(XPATH_TO_PAGE_TITLE)).getText().equals(TITLE);
+        return isCorrectPage(TITLE);
     }
 }
