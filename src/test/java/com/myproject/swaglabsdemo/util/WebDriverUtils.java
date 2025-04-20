@@ -36,5 +36,9 @@ public class WebDriverUtils {
         return webDriverWait.until(webDriver -> webElement.isDisplayed());
     }
 
+    public static WebElement waitUntilVisible(String xPath){
+        return webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
+    }
+
 
 }

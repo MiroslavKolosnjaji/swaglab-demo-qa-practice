@@ -44,6 +44,7 @@ public class ProductPage extends BasePage {
 
         WebElement product = WebDriverUtils.isClicable(getProduct(xpath));
         product.click();
+        WebDriverUtils.waitUntilVisible("//span[contains(@class, 'shopping_cart_badge')]");
 
         return this;
     }
