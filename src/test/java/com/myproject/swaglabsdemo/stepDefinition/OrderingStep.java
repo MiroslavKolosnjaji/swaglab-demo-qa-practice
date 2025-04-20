@@ -104,7 +104,7 @@ public class OrderingStep {
     }
 
     @And("populate the form on the Your Information page")
-    public void populateTheFormOnTheYourInformationPageWithFirstNameLastNameAndPostalCode() {
+    public void populateTheFormOnTheYourInformationPage() {
         checkoutOverviewPage = checkoutYourInformationPage
                 .populateFirstNameField(user.getFirstName())
                 .populateLastNameField(user.getLastName())
