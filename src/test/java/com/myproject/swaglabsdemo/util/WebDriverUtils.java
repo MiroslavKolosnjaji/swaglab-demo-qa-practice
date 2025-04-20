@@ -40,5 +40,9 @@ public class WebDriverUtils {
         return webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
     }
 
+    public static WebElement waitUntilVisible(WebElement element){
+        return webDriverWait.until(ExpectedConditions.visibilityOf(element));
+    }
+
 
 }
