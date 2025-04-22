@@ -57,12 +57,6 @@ public class OrderingStep {
                 .clickLogin();
 
         assertFalse(loginPage.isErrorMessageDisplayed(), "Login failed.");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     @Then("verify that user landed on the products page")
