@@ -29,10 +29,13 @@ public class E2EModule extends AbstractModule {
     @Inject
     public synchronized WebDriver provideWebDriver() {
 
-        WebDriver webDriver = DriverProviderService.getChromeDriver();
-        webDriver.manage().window().maximize();
+        String browserName = System.getProperty("browser", "chrome");
+        WebDriver webDriver = DriverProviderService.getWebDriver(DriverProviderService.BrowserType.fromString(browserName));
 
         WebDriverUtils.createInstance(webDriver, Duration.ofSeconds(10));
+
+        webDriver.manage().window().maximize();
+
 
         return webDriver;
     }

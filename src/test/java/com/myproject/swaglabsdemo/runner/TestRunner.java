@@ -2,6 +2,9 @@ package com.myproject.swaglabsdemo.runner;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 /**
  * @author Miroslav Kološnjaji
@@ -12,4 +15,10 @@ import io.cucumber.testng.CucumberOptions;
         plugin = {"pretty", "html:target/cucumber-reports.html"}
 )
 public class TestRunner extends AbstractTestNGCucumberTests{
+
+    @BeforeClass(alwaysRun = true)
+    @Parameters({"browser"})
+    public void setup(@Optional("chrome") String browser){
+        System.setProperty("browser", browser);
+    }
 }
