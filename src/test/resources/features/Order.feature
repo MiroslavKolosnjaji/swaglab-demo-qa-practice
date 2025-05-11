@@ -1,5 +1,6 @@
 Feature: Ordering
 
+  @end2end
   Scenario: Verify that valid user can successfully order available products
     Given generate valid user
     When login as valid user
