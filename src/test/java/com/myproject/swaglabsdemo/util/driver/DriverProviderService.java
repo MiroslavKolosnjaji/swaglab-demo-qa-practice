@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,22 +15,14 @@ import java.util.Map;
  */
 public class DriverProviderService {
 
-    public static WebDriver getChromeDriver(){
+    public static WebDriver getWebDriver(BrowserType browserType) {
 
-
-        WebDriverManager.chromedriver().setup();
-        return new ChromeDriver(getOptions());
-    }
-
-
-    public static WebDriver getWebDriver(BrowserType browserType){
-
-        return switch (browserType){
+        return switch (browserType) {
             case CHROME -> {
                 WebDriverManager.chromedriver().setup();
                 yield new ChromeDriver(getOptions());
             }
-            case FIREFOX ->{
+            case FIREFOX -> {
                 WebDriverManager.firefoxdriver().setup();
                 yield new FirefoxDriver();
             }
@@ -41,20 +34,28 @@ public class DriverProviderService {
 
     }
 
-    private static ChromeOptions getOptions(){
+    private static ChromeOptions getOptions() {
+
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("safebrowsing.enabled", false);
+        prefs.put("credentials_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);
 
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("prefs", Map.of("safebrowsing.enabled", false, "credentials_enable_service", false, "profile.password_manager_enabled", false));
+        options.setExperimentalOption("prefs", prefs);
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--disable-notifications");
+
         return options;
     }
 
 
-    public enum BrowserType{
+    public enum BrowserType {
         CHROME,
         FIREFOX,
         EDGE;
 
-        public static BrowserType fromString(String value){
+        public static BrowserType fromString(String value) {
             return BrowserType.valueOf(value.toUpperCase());
         }
     }
