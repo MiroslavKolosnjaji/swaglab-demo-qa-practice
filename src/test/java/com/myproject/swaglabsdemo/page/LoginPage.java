@@ -61,5 +61,12 @@ public class LoginPage extends BasePage {
         return !webDriver.findElements(By.xpath(XPATH_TO_ERROR_MESSAGE)).isEmpty();
     }
 
+    public String getErrorMessage(){
+
+        WebElement errorMessageElement = webDriver.findElement(By.xpath(XPATH_TO_ERROR_MESSAGE));
+        return WebDriverUtils.isVisible(errorMessageElement).getText();
+    }
+
     public boolean isCorrectPage() {return webDriver.getTitle().equals(TITLE);}
 }
+//*[@id="login_button_container"]/div/form/div[3]/h3/text()

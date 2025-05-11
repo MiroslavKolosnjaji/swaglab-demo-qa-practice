@@ -1,6 +1,7 @@
 package com.myproject.swaglabsdemo.page;
 
 import com.google.inject.Inject;
+import com.myproject.swaglabsdemo.util.PageLoaderHelper;
 import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,7 @@ public abstract class BasePage {
     @Inject
     protected BasePage(WebDriver webDriver) {
         this.webDriver = webDriver;
+        PageLoaderHelper.waitForPageToLoad(webDriver, 10);
     }
 
     protected boolean isCorrectPage(String title) {

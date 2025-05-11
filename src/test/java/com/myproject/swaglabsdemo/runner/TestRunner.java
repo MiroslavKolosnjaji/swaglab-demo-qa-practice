@@ -13,7 +13,8 @@ import org.testng.annotations.Parameters;
 @CucumberOptions(
         features = "src/test/resources/features/",
         glue = {"com/myproject/swaglabsdemo/stepDefinition", "com/myproject/swaglabsdemo/hook"},
-        plugin = {"pretty", "html:target/cucumber-reports.html"}
+        plugin = {"pretty", "html:target/cucumber-reports.html"},
+        tags = "@end2end"
 )
 public class TestRunner extends AbstractTestNGCucumberTests{
 

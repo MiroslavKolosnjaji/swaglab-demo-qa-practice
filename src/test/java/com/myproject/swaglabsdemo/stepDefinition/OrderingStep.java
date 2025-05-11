@@ -9,6 +9,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -23,7 +24,7 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author Miroslav Kološnjaji
  */
-public class OrderingStep {
+public class OrderingStep extends BaseStep {
 
     private User user;
     private final WebDriver webDriver;
@@ -37,6 +38,7 @@ public class OrderingStep {
 
     @Inject
     public OrderingStep(WebDriver webDriver, TestDataStrategy testDataStrategy) {
+        super(webDriver);
         this.webDriver = webDriver;
         this.loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         this.navigationService = PageFactory.initElements(webDriver, NavigationService.class);
@@ -65,6 +67,9 @@ public class OrderingStep {
         boolean isCorrectPage = productPage.isCorrectPage();
 
         assertTrue(isCorrectPage, "User is not on the Products page.");
+
+        JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+        executor.executeScript("window.alert=function(){};");
     }
 
     @And("user add desired products to the Cart")
