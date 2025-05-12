@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class ProductPage extends BasePage {
     @CacheLookup
     private WebElement shoppingCartLink;
 
+    @FindBy(xpath = "//button[@id='react-burger-menu-btn']")
+    private WebElement hamburgerMenu;
+
     public ProductPage(WebDriver webDriver) {
         super(webDriver);
     }
@@ -35,7 +39,7 @@ public class ProductPage extends BasePage {
         return productsQuantity().equals(String.valueOf(quantity));
     }
 
-    public ProductPage addProductsToCart(List<String> productList){
+    public ProductPage addProductsToCart(List<String> productList) {
         productList.forEach(this::addProductToCart);
         return this;
     }
@@ -47,6 +51,20 @@ public class ProductPage extends BasePage {
         WebDriverUtils.waitUntilVisible("//span[contains(@class, 'shopping_cart_badge')]");
 
         return this;
+    }
+
+    public ProductPage selectHamburgerMenu() {
+        WebDriverUtils.isVisible(hamburgerMenu).click();
+
+        return this;
+    }
+
+    public LoginPage logout(){
+
+        WebElement logout = webDriver.findElement(By.xpath("//a[@id='logout_sidebar_link']"));
+        WebDriverUtils.waitUntilVisible(logout).click();
+
+        return PageFactory.initElements(webDriver, LoginPage.class);
     }
 
     private WebElement getProduct(String xpath) {

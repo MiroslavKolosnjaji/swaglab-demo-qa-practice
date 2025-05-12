@@ -15,7 +15,7 @@ Feature: Login functionality for SwagLabs users
 
 
   @negative @locked
-  Scenario Outline: Unsuccessful login with locked out user
+  Scenario Outline: Unsuccessful login with locked out and other users
     Given user is on the login page
     When user enters username <user> and password <password>
     And clicks the login button
@@ -25,3 +25,5 @@ Feature: Login functionality for SwagLabs users
       | user            | password       | message                                                                   |
       | locked_out_user | secret_sauce   | Epic sadface: Sorry, this user has been locked out.                       |
       | user_123        | doesn't exists | Epic sadface: Username and password do not match any user in this service |
+      |                 | abc            | Epic sadface: Username is required                                        |
+      | abcsd           |                | Epic sadface: Password is required                                        |

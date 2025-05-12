@@ -6,6 +6,7 @@ import com.google.inject.Provides;
 import com.myproject.swaglabsdemo.entity.strategy.TestDataStrategy;
 import com.myproject.swaglabsdemo.entity.strategy.impl.ValidUserStrategy;
 import com.myproject.swaglabsdemo.stepDefinition.LoginSteps;
+import com.myproject.swaglabsdemo.stepDefinition.LogoutSteps;
 import com.myproject.swaglabsdemo.stepDefinition.OrderingStep;
 import com.myproject.swaglabsdemo.util.WebDriverUtils;
 import com.myproject.swaglabsdemo.util.driver.DriverProviderService;
@@ -23,6 +24,7 @@ public class E2EModule extends AbstractModule {
     protected void configure() {
         bind(OrderingStep.class).in(ScenarioScoped.class);
         bind(LoginSteps.class).in(ScenarioScoped.class);
+        bind(LogoutSteps.class).in(ScenarioScoped.class);
         super.configure();
     }
 

@@ -1,7 +1,6 @@
 package com.myproject.swaglabsdemo.stepDefinition;
 
 import com.google.inject.Inject;
-import com.myproject.swaglabsdemo.entity.strategy.TestDataStrategy;
 import com.myproject.swaglabsdemo.page.LoginPage;
 import com.myproject.swaglabsdemo.page.ProductPage;
 import io.cucumber.java.en.And;
@@ -23,8 +22,8 @@ public class LoginSteps extends BaseStep{
     private ProductPage productPage;
 
     @Inject
-    protected LoginSteps(WebDriver wwebdriver) {
-        super(wwebdriver);
+    protected LoginSteps(WebDriver webdriver) {
+        super(webdriver);
         this.loginPage = PageFactory.initElements(webDriver, LoginPage.class);
     }
 
@@ -57,4 +56,5 @@ public class LoginSteps extends BaseStep{
         assertTrue(loginPage.isErrorMessageDisplayed(), "Error message is not displayed.");
         assertEquals(actualMessage, message, "Error message doesn't match.");
     }
+
 }

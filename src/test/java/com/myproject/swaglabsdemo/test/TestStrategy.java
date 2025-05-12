@@ -1,7 +1,7 @@
 package com.myproject.swaglabsdemo.test;
 
 /**
-@author Miroslav Kološnjaji
-*/
-    public interface TestStrategy {
+ * @author Miroslav Kološnjaji
+ */
+public interface TestStrategy {
 }
