@@ -16,13 +16,9 @@ import static org.testng.Assert.assertTrue;
  */
 public class LogoutSteps extends BaseStep{
 
-    private LoginPage loginPage;
-    private final ProductPage productPage;
-
     @Inject
     protected LogoutSteps(WebDriver webDriver) {
         super(webDriver);
-        this.productPage = PageFactory.initElements(webDriver, ProductPage.class);
     }
 
     @When("user open hamburger menu")

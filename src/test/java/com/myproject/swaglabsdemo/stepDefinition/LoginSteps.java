@@ -1,14 +1,12 @@
 package com.myproject.swaglabsdemo.stepDefinition;
 
 import com.google.inject.Inject;
-import com.myproject.swaglabsdemo.page.LoginPage;
-import com.myproject.swaglabsdemo.page.ProductPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+
 
 import static org.testng.Assert.*;
 
@@ -18,13 +16,9 @@ import static org.testng.Assert.*;
  */
 public class LoginSteps extends BaseStep{
 
-    private final LoginPage loginPage;
-    private ProductPage productPage;
-
     @Inject
     protected LoginSteps(WebDriver webdriver) {
         super(webdriver);
-        this.loginPage = PageFactory.initElements(webDriver, LoginPage.class);
     }
 
     @Given("user is on the login page")

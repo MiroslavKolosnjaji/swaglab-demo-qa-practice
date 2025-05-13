@@ -1,17 +1,13 @@
 package com.myproject.swaglabsdemo.stepDefinition;
 
 import com.google.inject.Inject;
-import com.myproject.swaglabsdemo.entity.User;
 import com.myproject.swaglabsdemo.entity.strategy.TestDataStrategy;
-import com.myproject.swaglabsdemo.page.*;
-import com.myproject.swaglabsdemo.util.config.NavigationService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -26,22 +22,12 @@ import static org.testng.Assert.assertEquals;
  */
 public class OrderingStep extends BaseStep {
 
-    private User user;
-    private final WebDriver webDriver;
-    private final NavigationService navigationService;
     private final TestDataStrategy testDataStrategy;
-    private final LoginPage loginPage;
-    private ProductPage productPage;
-    private CheckoutYourInformationPage checkoutYourInformationPage;
-    private CheckoutOverviewPage checkoutOverviewPage;
-    private CheckoutCompletePage checkoutCompletePage;
 
     @Inject
     public OrderingStep(WebDriver webDriver, TestDataStrategy testDataStrategy) {
         super(webDriver);
-        this.webDriver = webDriver;
-        this.loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-        this.navigationService = PageFactory.initElements(webDriver, NavigationService.class);
+
         this.testDataStrategy = testDataStrategy;
     }
 
