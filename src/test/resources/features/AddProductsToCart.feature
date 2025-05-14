@@ -8,6 +8,7 @@ Feature: Add products to cart functionality
     Then user should be redirected to the product page
     When user add desired products to the Cart
     Then verify that shopping cart contains notification with correct number
+    And checkout from the Cart
 
     Examples:
 
