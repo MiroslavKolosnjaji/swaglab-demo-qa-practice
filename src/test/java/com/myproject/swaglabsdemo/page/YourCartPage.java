@@ -7,6 +7,8 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 /**
  * @author Miroslav Kološnjaji
  */
@@ -17,6 +19,9 @@ public class YourCartPage extends BasePage {
     @FindBy(xpath = "//button[@id = 'checkout']")
     @CacheLookup
     private WebElement btnCheckout;
+    @FindBy(xpath = "//div[@class = 'cart_list']//div[@class = 'cart_item']")
+    @CacheLookup
+    private List<WebElement> elements;
 
     public YourCartPage(WebDriver webDriver) {
         super(webDriver);
@@ -26,6 +31,10 @@ public class YourCartPage extends BasePage {
         WebDriverUtils.isVisible(btnCheckout);
         btnCheckout.click();
         return PageFactory.initElements(webDriver, CheckoutYourInformationPage.class);
+    }
+
+    public int cartItemQuantity(){
+        return elements.size();
     }
 
     public boolean isCorrectPage() {

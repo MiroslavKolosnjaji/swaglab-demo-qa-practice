@@ -17,6 +17,7 @@ public abstract class BaseStep {
     protected final NavigationService navigationService;
     protected LoginPage loginPage;
     protected ProductPage productPage;
+    protected YourCartPage yourCartPage;
     protected CheckoutYourInformationPage checkoutYourInformationPage;
     protected CheckoutOverviewPage checkoutOverviewPage;
     protected CheckoutCompletePage checkoutCompletePage;

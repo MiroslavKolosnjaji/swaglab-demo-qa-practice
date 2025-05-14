@@ -14,7 +14,7 @@ import org.testng.annotations.Parameters;
         features = "src/test/resources/features/",
         glue = {"com/myproject/swaglabsdemo/stepDefinition", "com/myproject/swaglabsdemo/hook"},
         plugin = {"pretty", "html:target/cucumber-reports.html"},
-        tags = "@logout"
+        tags = "@cart"
 )
 public class TestRunner extends AbstractTestNGCucumberTests{
 

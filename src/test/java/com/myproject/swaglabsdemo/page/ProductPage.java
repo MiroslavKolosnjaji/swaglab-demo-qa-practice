@@ -59,6 +59,12 @@ public class ProductPage extends BasePage {
         return this;
     }
 
+    public YourCartPage checkShoppingCart(){
+        WebDriverUtils.isVisible(shoppingCartLink).click();
+
+        return PageFactory.initElements(webDriver, YourCartPage.class);
+    }
+
     public LoginPage logout(){
 
         WebElement logout = webDriver.findElement(By.xpath("//a[@id='logout_sidebar_link']"));

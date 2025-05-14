@@ -86,27 +86,35 @@ public class OrderingStep extends BaseStep {
 
     @And("checkout from the Cart")
     public void checkoutFromTheCart() {
-        checkoutYourInformationPage = navigationService
-                .navigateToShoppingCartPage(webDriver)
-                .clickCheckout();
 
-        assertTrue(checkoutYourInformationPage.isCorrectPage(), "User is not on the Cart page.");
+        yourCartPage = productPage.checkShoppingCart();
+        int itemQuantity = yourCartPage.cartItemQuantity();
+
+
+        assertTrue(yourCartPage.isCorrectPage(), "User is not on the Your Cart page.");
+        assertEquals(itemQuantity, 6, "Item count doesn't match.");
+
+
+        checkoutYourInformationPage = yourCartPage.clickCheckout();
     }
 
     @And("populate the form on the Your Information page")
     public void populateTheFormOnTheYourInformationPage() {
+
+        assertTrue(checkoutYourInformationPage.isCorrectPage(), "User is not on the Checkout Information page.");
+
         checkoutOverviewPage = checkoutYourInformationPage
                 .populateFirstNameField(user.getFirstName())
                 .populateLastNameField(user.getLastName())
                 .populatePostalCodeField(user.getPostalCode())
                 .clickContinueButton();
-
-        assertTrue(checkoutOverviewPage.isCorrectPage(), "User is not on the Checkout Overview page.");
     }
 
 
     @And("finish the order")
     public void finishTheOrder() {
+
+        assertTrue(checkoutOverviewPage.isCorrectPage(), "User is not on the Checkout Overview page.");
 
         Map<String, String> summaryMap = checkoutOverviewPage.summaryInfo();
 
@@ -117,12 +125,12 @@ public class OrderingStep extends BaseStep {
 
         checkoutCompletePage = checkoutOverviewPage
                 .clickFinishButton();
-
-        assertTrue(checkoutCompletePage.isCorrectPage(), "User is not on the Checkout Complete page.");
     }
 
     @Then("should receive the success message")
     public void shouldReceiveTheSuccessMessage() {
+
+        assertTrue(checkoutCompletePage.isCorrectPage(), "User is not on the Checkout Complete page.");
 
         boolean isCorrectMessage = checkoutCompletePage.isSuccessMessageDisplayed();
         assertTrue(isCorrectMessage, "Success message is not displayed");
