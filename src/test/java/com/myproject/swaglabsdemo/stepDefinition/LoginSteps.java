@@ -14,7 +14,7 @@ import static org.testng.Assert.*;
 /**
  * @author Miroslav Kološnjaji
  */
-public class LoginSteps extends BaseStep{
+public class LoginSteps extends BaseStep {
 
     @Inject
     protected LoginSteps(WebDriver webdriver) {
@@ -22,14 +22,16 @@ public class LoginSteps extends BaseStep{
     }
 
     @Given("user is on the login page")
-    public void userIsOnTheLoginPage(){
-        assertTrue(loginPage.isCorrectPage(), "User is not landed on the Login page." );
+    public void userIsOnTheLoginPage() {
+        assertTrue(loginPage.isCorrectPage(), "User is not landed on the Login page.");
     }
 
     @When("user enters username {} and password {}")
     public void userEntersUsernameAndPassword(String username, String password) {
-        loginPage.setUsername(username);
-        loginPage.setPassword(password);
+        loginPage
+                .setUsername(username)
+                .setPassword(password);
+
     }
 
     @And("clicks the login button")

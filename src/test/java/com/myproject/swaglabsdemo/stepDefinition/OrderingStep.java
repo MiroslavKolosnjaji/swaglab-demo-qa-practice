@@ -135,6 +135,4 @@ public class OrderingStep extends BaseStep {
         boolean isCorrectMessage = checkoutCompletePage.isSuccessMessageDisplayed();
         assertTrue(isCorrectMessage, "Success message is not displayed");
     }
-
-
 }

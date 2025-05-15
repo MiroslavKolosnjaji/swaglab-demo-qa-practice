@@ -34,7 +34,7 @@ public class ProductPage extends BasePage {
 
     public boolean verifyShoppingCartProductCount(Integer quantity) {
 
-        log.info("The product quantity in the cart is {}", productsQuantity());
+        log.info("The product quantity in the cart is {}, and quantity argument is {}", productsQuantity(), quantity);
 
         return productsQuantity().equals(String.valueOf(quantity));
     }
@@ -51,6 +51,10 @@ public class ProductPage extends BasePage {
         WebDriverUtils.waitUntilVisible("//span[contains(@class, 'shopping_cart_badge')]");
 
         return this;
+    }
+
+    public ProductPage removeProductsFromCart(List<String> productList){
+       return addProductsToCart(productList);
     }
 
     public ProductPage selectHamburgerMenu() {
